@@ -4,49 +4,49 @@
     <title>Admin Dashboard</title>
     <style>
         body { font-family: Arial; background: #1a1a2e; color: white; padding: 20px; }
-        .claim-card { border: 1px solid #444; padding: 15px; margin-bottom: 10px; background: #16213e; }
+        .panel { border: 1px solid #444; padding: 15px; margin-bottom: 20px; background: #16213e; }
         button { background: #e94560; color: white; border: none; padding: 10px; cursor: pointer; }
+        input { padding: 10px; margin-bottom: 10px; width: 90%; }
     </style>
 </head>
 <body>
-    <h1>Pending Payments Queue</h1>
-    <div id="claimsList">Loading...</div>
+    <h1>Admin Control Panel</h1>
+
+    <div class="panel">
+        <h2>1. Upload Content to Vault</h2>
+        <form action="/admin/upload" method="POST" enctype="multipart/form-data">
+            <input type="text" name="title" placeholder="Title of Video/Image" required>
+            <input type="file" name="mediaFile" required style="color:white;">
+            <button type="submit" style="background: #0f3460;">Upload Media</button>
+        </form>
+    </div>
+
+    <div class="panel">
+        <h2>2. Approve Payments</h2>
+        <div id="claimsList">Loading...</div>
+    </div>
 
     <script>
         function loadClaims() {
-            fetch('/admin/claims')
-            .then(res => res.json())
-            .then(claims => {
+            fetch('/admin/claims').then(res => res.json()).then(claims => {
                 const list = document.getElementById('claimsList');
-                list.innerHTML = ''; // Clear loading text
-                
-                if (claims.length === 0) list.innerHTML = "<p>No pending payments.</p>";
-
+                list.innerHTML = claims.length === 0 ? "<p>No pending payments.</p>" : "";
                 claims.forEach(claim => {
                     list.innerHTML += `
-                        <div class="claim-card">
+                        <div style="border-bottom: 1px solid #555; padding-bottom: 10px; margin-bottom: 10px;">
                             <p><strong>Handle:</strong> ${claim.handle}</p>
-                            <p><strong>App Note Code:</strong> <span style="color: yellow;">${claim.refCode}</span></p>
-                            <button onclick="approveClaim(${claim.id})">I Received The Money - Approve</button>
-                        </div>
-                    `;
+                            <p><strong>Code:</strong> <span style="color: yellow;">${claim.refCode}</span></p>
+                            <button onclick="approveClaim(${claim.id})">Approve User</button>
+                        </div>`;
                 });
             });
         }
 
         function approveClaim(id) {
-            fetch('/admin/approve', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id: id })
-            })
-            .then(() => {
-                alert("Approved! Content unlocked for this user.");
-                loadClaims(); // Reload the list
-            });
+            fetch('/admin/approve', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id }) })
+            .then(() => { alert("Approved!"); loadClaims(); });
         }
-
-        loadClaims(); // Run when page loads
+        loadClaims();
     </script>
 </body>
 </html>

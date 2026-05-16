@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>The Vault</title>
+    <style>
+        body { font-family: Arial; background: #000; color: white; text-align: center; padding: 30px; }
+        .box { border: 1px solid #333; padding: 20px; max-width: 500px; margin: 10px auto; background: #111; }
+        input, button { padding: 10px; width: 80%; margin-top: 10px; }
+        button { background: #28a745; color: white; border: none; cursor: pointer; font-weight: bold; }
+        img, video { max-width: 100%; margin-top: 15px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>The Vault</h1>
+
+    <!-- The Login Screen -->
+    <div id="loginSection" class="box">
+        <p>Enter your payment handle to unlock the content.</p>
+        <input type="text" id="handleInput" placeholder="$YourCashAppHandle">
+        <button onclick="unlockVault()">Unlock Vault</button>
+        <p id="errorMsg" style="color: red; margin-top:10px;"></p>
+    </div>
+
+    <!-- The Hidden Content Screen -->
+    <div id="contentSection" style="display: none;">
+        <h2 style="color: #28a745;">Access Granted</h2>
+        <div id="mediaContainer"></div>
+    </div>
+
+    <script>
+        function unlockVault() {
+            const handle = document.getElementById('handleInput').value;
+            
+            fetch('/vault/access', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ handle: handle })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.error) {
+                    document.getElementById('errorMsg').innerText = data.error;
+                } else {
+                    document.getElementById('loginSection').style.display = 'none';
+                    document.getElementById('contentSection').style.display = 'block';
+                    
+                    const container = document.getElementById('mediaContainer');
+                    data.forEach(item => {
+                        // Check if it's a video or an image
+                        const ext = item.filename.split('.').pop().toLowerCase();
+                        const isVideo = ['mp4', 'webm', 'mov'].includes(ext);
+                        
+                        // Pass the handle back to the server to prove they are allowed to see the image
+                        const mediaUrl = `/protected-media/${item.filename}?handle=${encodeURIComponent(handle)}`;
+                        
+                        let mediaHtml = isVideo ? `<video controls><source src="${mediaUrl}"></video>` : `<img src="${mediaUrl}">`;
+
+                        container.innerHTML += `
+                            <div class="box">
+                                <h3>${item.title}</h3>
+                                ${mediaHtml}
+                            </div>
+                        `;
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+</html>
