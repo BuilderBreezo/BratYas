@@ -3,27 +3,70 @@
 <head>
     <title>The Vault</title>
     <style>
-        body { font-family: Arial; background: #000; color: white; text-align: center; padding: 30px; }
-        .box { border: 1px solid #333; padding: 20px; max-width: 500px; margin: 10px auto; background: #111; }
-        input, button { padding: 10px; width: 80%; margin-top: 10px; }
-        button { background: #28a745; color: white; border: none; cursor: pointer; font-weight: bold; }
-        img, video { max-width: 100%; margin-top: 15px; border-radius: 5px; }
+        body { 
+            font-family: 'Comic Sans MS', 'Segoe UI', sans-serif; 
+            background-color: #FFD1DC; 
+            color: #4A2E15; 
+            text-align: center; 
+            padding: 30px; 
+            background-image: radial-gradient(#FFB6C1 15%, transparent 16%);
+            background-size: 30px 30px;
+        }
+        .box { 
+            background: #FFF5F7; 
+            border: 5px solid #8B4513; 
+            border-radius: 30px; 
+            padding: 30px; 
+            max-width: 500px; 
+            margin: 15px auto; 
+            box-shadow: 0 10px 0 #FF9EBB; 
+        }
+        h1, h2 { color: #D2691E; text-shadow: 2px 2px 0 #FFE4E1; }
+        input { 
+            padding: 12px; 
+            width: 80%; 
+            margin-top: 10px; 
+            border: 3px solid #8B4513; 
+            border-radius: 15px; 
+            outline: none;
+            font-weight: bold;
+        }
+        button { 
+            background: #FF69B4; 
+            color: white; 
+            border: 3px solid #8B4513; 
+            border-radius: 20px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            padding: 12px 20px; 
+            margin-top: 15px;
+            box-shadow: 0 5px 0 #8B4513; 
+            transition: all 0.1s;
+        }
+        button:active {
+            transform: translateY(5px);
+            box-shadow: 0 0 0 #8B4513;
+        }
+        img, video { 
+            max-width: 100%; 
+            margin-top: 15px; 
+            border-radius: 15px; 
+            border: 4px solid #8B4513; 
+        }
     </style>
 </head>
 <body>
-    <h1>The Vault</h1>
+    <h1>🍬 The Content Vault 🍬</h1>
 
-    <!-- The Login Screen -->
     <div id="loginSection" class="box">
-        <p>Enter your payment handle to unlock the content.</p>
+        <p><strong>Enter your CashApp handle to unwrap your treats!</strong></p>
         <input type="text" id="handleInput" placeholder="$YourCashAppHandle">
         <button onclick="unlockVault()">Unlock Vault</button>
-        <p id="errorMsg" style="color: red; margin-top:10px;"></p>
+        <p id="errorMsg" style="color: #FF1493; font-weight: bold; margin-top:10px;"></p>
     </div>
 
-    <!-- The Hidden Content Screen -->
     <div id="contentSection" style="display: none;">
-        <h2 style="color: #28a745;">Access Granted</h2>
+        <h2 style="color: #FF1493;">🍭 Access Granted! 🍭</h2>
         <div id="mediaContainer"></div>
     </div>
 
@@ -39,25 +82,22 @@
             .then(res => res.json())
             .then(data => {
                 if (data.error) {
-                    document.getElementById('errorMsg').innerText = data.error;
+                    document.getElementById('errorMsg').innerText = "🍫 " + data.error + " 🍫";
                 } else {
                     document.getElementById('loginSection').style.display = 'none';
                     document.getElementById('contentSection').style.display = 'block';
                     
                     const container = document.getElementById('mediaContainer');
                     data.forEach(item => {
-                        // Check if it's a video or an image
                         const ext = item.filename.split('.').pop().toLowerCase();
                         const isVideo = ['mp4', 'webm', 'mov'].includes(ext);
-                        
-                        // Pass the handle back to the server to prove they are allowed to see the image
                         const mediaUrl = `/protected-media/${item.filename}?handle=${encodeURIComponent(handle)}`;
                         
                         let mediaHtml = isVideo ? `<video controls><source src="${mediaUrl}"></video>` : `<img src="${mediaUrl}">`;
 
                         container.innerHTML += `
                             <div class="box">
-                                <h3>${item.title}</h3>
+                                <h3>🎀 ${item.title} 🎀</h3>
                                 ${mediaHtml}
                             </div>
                         `;
