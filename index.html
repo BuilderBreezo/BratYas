@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Private Event Access</title>
+    <style>
+        body { font-family: Arial; background: #111; color: white; text-align: center; padding: 50px; }
+        .paywall { border: 2px solid #444; padding: 20px; max-width: 400px; margin: 0 auto; background: #222; }
+        input, button { padding: 10px; margin: 5px; width: 90%; }
+        button { background: #28a745; color: white; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="paywall">
+        <h2>Unlock Private Event</h2>
+        <p>Send an honorarium via CashApp to <strong>$YourName</strong></p>
+        <p>Put this code in the payment note: <strong id="refCode" style="color: yellow;"></strong></p>
+        
+        <!-- You will replace this placeholder with an actual QR code image later -->
+        <div style="width: 150px; height: 150px; background: white; color: black; margin: 20px auto; line-height: 150px;">[QR CODE HERE]</div>
+
+        <h3>Already Paid?</h3>
+        <input type="text" id="handle" placeholder="Enter your CashApp Handle (e.g. $JohnDoe)">
+        <button onclick="submitClaim()">I Sent The Payment</button>
+        <p id="message"></p>
+    </div>
+
+    <script>
+        // Generate a random 4-digit code for them to put in the app note
+        const randomCode = "#EVNT-" + Math.floor(1000 + Math.random() * 9000);
+        document.getElementById('refCode').innerText = randomCode;
+
+        function submitClaim() {
+            const handle = document.getElementById('handle').value;
+            fetch('/claim', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ handle: handle, refCode: randomCode })
+            })
+            .then(res => res.text())
+            .then(data => document.getElementById('message').innerText = data);
+        }
+    </script>
+</body>
+</html>
