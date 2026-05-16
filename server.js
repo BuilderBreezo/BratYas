@@ -2,10 +2,24 @@ const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 const multer = require('multer');
+const basicAuth = require('express-basic-auth');
 
 const app = express();
 app.use(express.json());
 app.use(express.static(__dirname)); 
+
+// --- SECURITY LOCK ---
+// Lock down anything that starts with "/admin"
+app.use((req, res, next) => {
+    if (req.path.startsWith('/admin')) {
+        return basicAuth({
+            users: { 'boss': 'secret123' }, // CHANGE THESE BEFORE DEPLOYING!
+            challenge: true,
+            unauthorizedResponse: 'Access Denied. Admins Only.'
+        })(req, res, next);
+    }
+    next();
+});
 
 // Setup file uploader (saves to the /uploads folder)
 const storage = multer.diskStorage({

@@ -15,17 +15,18 @@
         <p>Send an honorarium via CashApp to <strong>$YourName</strong></p>
         <p>Put this code in the payment note: <strong id="refCode" style="color: yellow;"></strong></p>
         
-        <!-- You will replace this placeholder with an actual QR code image later -->
         <div style="width: 150px; height: 150px; background: white; color: black; margin: 20px auto; line-height: 150px;">[QR CODE HERE]</div>
 
         <h3>Already Paid?</h3>
         <input type="text" id="handle" placeholder="Enter your CashApp Handle (e.g. $JohnDoe)">
         <button onclick="submitClaim()">I Sent The Payment</button>
         <p id="message"></p>
+        
+        <br><br>
+        <a href="/vault.html" style="color: #28a745; text-decoration: none; border: 1px solid #28a745; padding: 10px; display: inline-block;">Go To The Vault</a>
     </div>
 
     <script>
-        // Generate a random 4-digit code for them to put in the app note
         const randomCode = "#EVNT-" + Math.floor(1000 + Math.random() * 9000);
         document.getElementById('refCode').innerText = randomCode;
 
