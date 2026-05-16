@@ -9,7 +9,6 @@ app.use(express.json());
 app.use(express.static(__dirname)); 
 
 // --- SECURITY LOCK ---
-// Lock down anything that starts with "/admin"
 app.use((req, res, next) => {
     if (req.path.startsWith('/admin')) {
         return basicAuth({
@@ -21,7 +20,7 @@ app.use((req, res, next) => {
     next();
 });
 
-// Setup file uploader (saves to the /uploads folder)
+// Setup file uploader
 const storage = multer.diskStorage({
     destination: './uploads/',
     filename: function(req, file, cb) {
@@ -33,14 +32,12 @@ const upload = multer({ storage: storage });
 const db = new sqlite3.Database('./database.sqlite');
 
 db.serialize(() => {
-    // Users who paid
     db.run(`CREATE TABLE IF NOT EXISTS claims (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         handle TEXT,
         refCode TEXT,
         status TEXT DEFAULT 'pending'
     )`);
-    // Your uploaded content
     db.run(`CREATE TABLE IF NOT EXISTS content (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT,
@@ -69,7 +66,7 @@ app.post('/vault/access', (req, res) => {
     });
 });
 
-// Securely serve the media files ONLY if they are approved
+// Securely serve the media files
 app.get('/protected-media/:filename', (req, res) => {
     const handle = req.query.handle;
     db.get(`SELECT * FROM claims WHERE handle = ? AND status = 'approved'`, [handle], (err, row) => {
@@ -92,15 +89,16 @@ app.post('/admin/approve', (req, res) => {
     });
 });
 
-// Handle Admin File Uploads
 app.post('/admin/upload', upload.single('mediaFile'), (req, res) => {
     const title = req.body.title;
     const filename = req.file.filename;
     db.run(`INSERT INTO content (title, filename) VALUES (?, ?)`, [title, filename], () => {
-        res.redirect('/admin.html'); // Reload admin page after upload
+        res.redirect('/admin.html'); 
     });
 });
 
-app.listen(3000, () => {
-    console.log('Server running!');
+// THIS IS THE LINE THAT CHANGED FOR DEPLOYMENT!
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });
