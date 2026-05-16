@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Admin Dashboard</title>
+    <style>
+        body { font-family: Arial; background: #1a1a2e; color: white; padding: 20px; }
+        .claim-card { border: 1px solid #444; padding: 15px; margin-bottom: 10px; background: #16213e; }
+        button { background: #e94560; color: white; border: none; padding: 10px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Pending Payments Queue</h1>
+    <div id="claimsList">Loading...</div>
+
+    <script>
+        function loadClaims() {
+            fetch('/admin/claims')
+            .then(res => res.json())
+            .then(claims => {
+                const list = document.getElementById('claimsList');
+                list.innerHTML = ''; // Clear loading text
+                
+                if (claims.length === 0) list.innerHTML = "<p>No pending payments.</p>";
+
+                claims.forEach(claim => {
+                    list.innerHTML += `
+                        <div class="claim-card">
+                            <p><strong>Handle:</strong> ${claim.handle}</p>
+                            <p><strong>App Note Code:</strong> <span style="color: yellow;">${claim.refCode}</span></p>
+                            <button onclick="approveClaim(${claim.id})">I Received The Money - Approve</button>
+                        </div>
+                    `;
+                });
+            });
+        }
+
+        function approveClaim(id) {
+            fetch('/admin/approve', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: id })
+            })
+            .then(() => {
+                alert("Approved! Content unlocked for this user.");
+                loadClaims(); // Reload the list
+            });
+        }
+
+        loadClaims(); // Run when page loads
+    </script>
+</body>
+</html>

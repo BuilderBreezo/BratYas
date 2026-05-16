@@ -28,7 +28,25 @@ app.post('/claim', (req, res) => {
     });
 });
 
-// Start the server
+// Start the server// --- NEW ADMIN ROUTES ---
+
+// View pending claims
+app.get('/admin/claims', (req, res) => {
+    db.all(`SELECT * FROM claims WHERE status = 'pending'`, [], (err, rows) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(rows);
+    });
+});
+
+// Approve a claim
+app.post('/admin/approve', (req, res) => {
+    const { id } = req.body;
+    db.run(`UPDATE claims SET status = 'approved' WHERE id = ?`, [id], (err) => {
+        if (err) return res.status(500).send("Error updating.");
+        res.send("Approved!");
+    });
+});
 app.listen(3000, () => {
     console.log('Server running! Open http://localhost:3000 in your Chrome browser.');
 });
+
