@@ -1,103 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Private Event Access</title>
-    <style>
-        body { 
-            font-family: 'Comic Sans MS', 'Segoe UI', sans-serif; 
-            background-color: #FFD1DC; /* Pastel Pink */
-            color: #4A2E15; /* Chocolate Brown */
-            text-align: center; 
-            padding: 30px; 
-            background-image: radial-gradient(#FFB6C1 15%, transparent 16%);
-            background-size: 30px 30px;
-        }
-        .paywall { 
-            background: #FFF5F7; 
-            border: 5px solid #8B4513; /* Saddle Brown */
-            border-radius: 30px; 
-            padding: 30px; 
-            max-width: 400px; 
-            margin: 0 auto; 
-            box-shadow: 0 10px 0 #FF9EBB; /* Candy 3D Shadow */
-        }
-        h2, h3 { color: #D2691E; /* Chocolate */ margin-top: 0; }
-        input { 
-            padding: 12px; 
-            margin: 10px 0; 
-            width: 85%; 
-            border: 3px solid #8B4513; 
-            border-radius: 15px; 
-            background: #FFF; 
-            color: #4A2E15;
-            font-weight: bold;
-            outline: none;
-        }
-        button, .vault-link { 
-            background: #FF69B4; /* Hot Pink */
-            color: white; 
-            border: 3px solid #8B4513; 
-            border-radius: 20px; 
-            cursor: pointer; 
-            font-size: 16px; 
-            font-weight: bold; 
-            padding: 12px 20px; 
-            width: 90%;
-            box-shadow: 0 5px 0 #8B4513; 
-            transition: all 0.1s;
-            display: inline-block;
-            text-decoration: none;
-            margin-top: 10px;
-        }
-        button:active, .vault-link:active {
-            transform: translateY(5px);
-            box-shadow: 0 0 0 #8B4513;
-        }
-        .qr-box {
-            width: 150px; 
-            height: 150px; 
-            background: #8B4513; 
-            color: #FFD1DC; 
-            margin: 20px auto; 
-            line-height: 150px;
-            border-radius: 20px;
-            border: 4px dashed #FF69B4;
-            font-weight: bold;
-        }
-        #refCode { color: #FF1493; background: #FFE4E1; padding: 2px 8px; border-radius: 10px; border: 2px solid #FF1493;}
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BRatYAs Dashboard</title>
+    <!-- This script pulls in Tailwind CSS magically so we can style easily -->
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class="paywall">
-        <h2>💖 Unlock the Magic 💖</h2>
-        <p>Send an honorarium via CashApp to <strong>$YourName</strong></p>
-        <p>Put this code in the payment note:<br> <strong id="refCode"></strong></p>
+<body class="flex h-screen bg-gray-50 font-sans">
+
+    <!-- Sidebar (Burgundy Theme) -->
+    <aside class="w-64 bg-[#8C1C40] text-white flex flex-col shadow-xl relative overflow-hidden">
+        <!-- We will add the actual candy background image here later! -->
+        <div class="p-6 text-3xl font-bold border-b border-white/10 z-10">
+            🍭 BRatYAs
+        </div>
+        <nav class="flex-1 p-4 space-y-2 z-10 text-sm font-medium">
+            <a href="#" class="block px-4 py-3 bg-white/20 rounded-lg shadow-sm">🏠 Dashboard</a>
+            <a href="#" class="block px-4 py-3 hover:bg-white/10 rounded-lg transition-colors">📅 Events</a>
+            <a href="#" class="block px-4 py-3 hover:bg-white/10 rounded-lg transition-colors">🔒 Private Content</a>
+            <a href="#" class="block px-4 py-3 hover:bg-white/10 rounded-lg transition-colors">📂 Media Vault</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 p-8 overflow-y-auto">
         
-        <div class="qr-box">[QR CODE HERE]</div>
+        <!-- Top Nav -->
+        <header class="flex justify-end items-center mb-10 space-x-4">
+            <a href="#" class="text-gray-600 font-medium hover:text-black">Events</a>
+            <button class="bg-[#E4B37D] text-black px-6 py-2 rounded-full font-bold shadow-sm hover:bg-[#d6a56e] transition-colors">Dashboard</button>
+        </header>
 
-        <h3>Already Paid?</h3>
-        <input type="text" id="handle" placeholder="Enter CashApp Handle (e.g. $JohnDoe)">
-        <button onclick="submitClaim()">I Sent The Payment!</button>
-        <p id="message" style="font-weight: bold; color: #FF1493;"></p>
+        <!-- Events Section -->
+        <h1 class="text-3xl font-bold mb-6 text-gray-900">Upcoming Events</h1>
         
-        <br>
-        <a href="/vault.html" class="vault-link">🍫 Go To The Vault 🍫</a>
-    </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Event Card 1 -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+                <!-- Temporary placeholder image for the event -->
+                <div class="h-48 bg-gray-200 rounded-xl mb-4 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=400');"></div>
+                <h3 class="font-bold text-xl text-gray-900">Exclusive Dining</h3>
+                <p class="text-gray-500 text-sm mb-4 mt-1">Event Jan 1 • 00:00 AM - 2:00 PM</p>
+                <button class="w-full bg-[#8C1C40] text-white py-3 rounded-lg font-medium hover:bg-[#6e1532] transition-colors">Booking</button>
+            </div>
+            
+            <!-- You can copy and paste that card block to make more! -->
+        </div>
 
-    <script>
-        const randomCode = "#EVNT-" + Math.floor(1000 + Math.random() * 9000);
-        document.getElementById('refCode').innerText = randomCode;
-
-        function submitClaim() {
-            const handle = document.getElementById('handle').value;
-            fetch('/claim', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ handle: handle, refCode: randomCode })
-            })
-            .then(res => res.text())
-            .then(data => document.getElementById('message').innerText = "🎀 " + data + " 🎀");
-        }
-    </script>
+    </main>
 </body>
 </html>
