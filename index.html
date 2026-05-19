@@ -4,18 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BRatYAs Dashboard</title>
-    <!-- This script pulls in Tailwind CSS magically so we can style easily -->
+    <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="flex h-screen bg-gray-50 font-sans">
 
-    <!-- Sidebar (Burgundy Theme) -->
-    <aside class="w-64 bg-[#8C1C40] text-white flex flex-col shadow-xl relative overflow-hidden">
-        <!-- We will add the actual candy background image here later! -->
-        <div class="p-6 text-3xl font-bold border-b border-white/10 z-10">
+    <!-- Sidebar (Candyland Theme) -->
+    <aside class="w-64 text-white flex flex-col shadow-xl relative overflow-hidden bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1570942544774-a690ea5bfbfd?auto=format&fit=crop&q=80&w=600');">
+        <!-- Burgundy overlay -->
+        <div class="absolute inset-0 bg-[#8C1C40]/80"></div>
+        
+        <div class="p-6 text-3xl font-bold border-b border-white/10 z-10 relative">
             🍭 BRatYAs
         </div>
-        <nav class="flex-1 p-4 space-y-2 z-10 text-sm font-medium">
+        <nav class="flex-1 p-4 space-y-2 z-10 relative text-sm font-medium">
             <a href="#" class="block px-4 py-3 bg-white/20 rounded-lg shadow-sm">🏠 Dashboard</a>
             <a href="#" class="block px-4 py-3 hover:bg-white/10 rounded-lg transition-colors">📅 Events</a>
             <a href="#" class="block px-4 py-3 hover:bg-white/10 rounded-lg transition-colors">🔒 Private Content</a>
@@ -38,14 +40,80 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- Event Card 1 -->
             <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
-                <!-- Temporary placeholder image for the event -->
                 <div class="h-48 bg-gray-200 rounded-xl mb-4 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=400');"></div>
                 <h3 class="font-bold text-xl text-gray-900">Exclusive Dining</h3>
                 <p class="text-gray-500 text-sm mb-4 mt-1">Event Jan 1 • 00:00 AM - 2:00 PM</p>
                 <button class="w-full bg-[#8C1C40] text-white py-3 rounded-lg font-medium hover:bg-[#6e1532] transition-colors">Booking</button>
             </div>
             
-            <!-- You can copy and paste that card block to make more! -->
+            <!-- Event Card 2 -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+                <div class="h-48 bg-gray-200 rounded-xl mb-4 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80&w=400');"></div>
+                <h3 class="font-bold text-xl text-gray-900">Private Performances</h3>
+                <p class="text-gray-500 text-sm mb-4 mt-1">Event Jan 13 • 12:00 AM - 7:00 PM</p>
+                <button class="w-full bg-[#186f65] text-white py-3 rounded-lg font-medium hover:bg-[#12554d] transition-colors">Booking</button>
+            </div>
+
+            <!-- Event Card 3 -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+                <div class="h-48 bg-gray-200 rounded-xl mb-4 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80&w=400');"></div>
+                <h3 class="font-bold text-xl text-gray-900">Exclusive Event</h3>
+                <p class="text-gray-500 text-sm mb-4 mt-1">Event Jan 2 • 12:00 AM - 2:00 PM</p>
+                <button class="w-full bg-[#8C1C40] text-white py-3 rounded-lg font-medium hover:bg-[#6e1532] transition-colors">Booking</button>
+            </div>
+        </div>
+
+        <!-- The Vault Section -->
+        <div class="flex justify-between items-center mt-12 mb-6">
+            <h2 class="text-3xl font-bold text-gray-900">The Vault</h2>
+            <button class="text-sm border border-gray-300 px-4 py-1.5 rounded-md hover:bg-gray-100 font-medium">View All ⌄</button>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <!-- Vault Card 1 -->
+            <div class="bg-gray-900 rounded-xl overflow-hidden shadow-sm border border-gray-200">
+                <div class="relative h-48 bg-gray-800 flex flex-col items-center justify-center">
+                    <img src="https://images.unsplash.com/photo-1470229722913-7c092dbbba3a?auto=format&fit=crop&q=80&w=400" class="absolute inset-0 w-full h-full object-cover opacity-40">
+                    <div class="relative z-10 flex flex-col items-center">
+                        <span class="text-4xl mb-2">🔒</span>
+                        <p class="text-white font-semibold">Locked - Private Content</p>
+                    </div>
+                </div>
+                <div class="bg-white p-4">
+                    <h3 class="font-bold text-gray-900">Exclusive Video: [Date]</h3>
+                    <p class="text-gray-500 text-sm mt-1">Private Gallery</p>
+                </div>
+            </div>
+
+            <!-- Vault Card 2 -->
+            <div class="bg-gray-900 rounded-xl overflow-hidden shadow-sm border border-gray-200">
+                <div class="relative h-48 bg-gray-800 flex flex-col items-center justify-center">
+                    <img src="https://images.unsplash.com/photo-1516280440502-861d8c1162cd?auto=format&fit=crop&q=80&w=400" class="absolute inset-0 w-full h-full object-cover opacity-40">
+                    <div class="relative z-10 flex flex-col items-center">
+                        <span class="text-4xl mb-2">🔒</span>
+                        <p class="text-white font-semibold">Locked - Private Content</p>
+                    </div>
+                </div>
+                <div class="bg-white p-4">
+                    <h3 class="font-bold text-gray-900">Exclusive Video: [Date]</h3>
+                    <p class="text-gray-500 text-sm mt-1">Private Gallery</p>
+                </div>
+            </div>
+
+            <!-- Vault Card 3 -->
+            <div class="bg-gray-900 rounded-xl overflow-hidden shadow-sm border border-gray-200">
+                <div class="relative h-48 bg-gray-800 flex flex-col items-center justify-center">
+                    <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&q=80&w=400" class="absolute inset-0 w-full h-full object-cover opacity-40">
+                    <div class="relative z-10 flex flex-col items-center">
+                        <span class="text-4xl mb-2">🔒</span>
+                        <p class="text-white font-semibold">Locked - Private Content</p>
+                    </div>
+                </div>
+                <div class="bg-white p-4">
+                    <h3 class="font-bold text-gray-900">Exclusive Video: [Date]</h3>
+                    <p class="text-gray-500 text-sm mt-1">Private Gallery</p>
+                </div>
+            </div>
         </div>
 
     </main>
